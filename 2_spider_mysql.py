@@ -56,8 +56,19 @@ def update_table():
     cursor.close()
     db.close()
 
+def read_table():
+    db = pymysql.connect(host='localhost', user='root', password='root123', port=3306, db='spider')
+    cursor = db.cursor()
+    sql = 'SELECT * FROM students'
+    cursor.execute(sql)
+    one = cursor.fetchone()
+    print("one:", one)
+    all = cursor.fetchall()
+    print("all:", all)
+
 
 if __name__ == '__main__':
     # create_table()
     # insert_data_to_db()
-    update_table()
+    # update_table()
+    read_table()
