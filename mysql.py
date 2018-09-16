@@ -27,13 +27,37 @@ def create_table():
 def insert_data_to_db():
     db = pymysql.connect(host='localhost', user='root', password='root123', port=3306, db='spider')
     cursor = db.cursor()
-    sql = 'INSERT INTO students(id, name, age) VALUES("10221821", "Bob", 27)'
-    cursor.execute(sql)
-    db.commit()
+    id = '10221801'
+    name = 'lbj2'
+    age = 90
+    sql = 'INSERT INTO students(id, name, age) VALUES(%s, %s, %s)'
+    # 使用占位符%s
+    try:
+        cursor.execute(sql, (id, name, age))
+        # 事务的原子性,ACID
+        db.commit()
+    except:
+        db.rollback()
+    cursor.close()
+    db.close()
+
+
+def update_table():
+    db = pymysql.connect(host='localhost', user='root', password='root123', port=3306, db='spider')
+    cursor = db.cursor()
+    sql = 'UPDATE students SET age = %s WHERE name = %s'
+    age = 100
+    name = 'Bob'
+    try:
+        cursor.execute(sql, (age, name))
+        db.commit()
+    except:
+        db.rollback()
     cursor.close()
     db.close()
 
 
 if __name__ == '__main__':
     # create_table()
-    insert_data_to_db()
+    # insert_data_to_db()
+    update_table()
